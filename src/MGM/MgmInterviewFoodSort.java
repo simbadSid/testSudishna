@@ -1,4 +1,4 @@
-package MGM;
+package mgmInteview;
 
 import java.util.Arrays;
 
@@ -8,7 +8,7 @@ import java.util.Arrays;
 //- fix the code
 //- improve the poor quality of this code.
 //
-// (You can change anything you want
+//(You can change anything you want
 //
 //The class should sort food instances and output the following lines:
 //
@@ -125,7 +125,6 @@ public class MgmInterviewFoodSort {
 		final FOOD[] SORTEDFOOD = new FOOD[arraySize];
 
 		for (int i = 0; i < arraySize; i++) {
-
 			/**
 			 * Original code: final int index_of_the_smaller_food = i;
 			 * 
@@ -193,25 +192,24 @@ public class MgmInterviewFoodSort {
 		 * 			The correction we did allows to access the attribute that belongs of this object.
 		 */
 		
-		fs.foodArray = new FOOD[11];
+		fs.foodArray = new FOOD[10];
 
-		fs.foodArray[0] = fs.new Tomato(121);
+		fs.foodArray[0] = fs.new Tomato(11);
 		fs.foodArray[1] = fs.new Tomato();
 
-		fs.foodArray[2] = fs.new Potato(-576);
-		fs.foodArray[3] = fs.new Potato(-266);
-		fs.foodArray[4] = fs.new Potato(-128);
-		fs.foodArray[5] = fs.new Potato(105);
-		fs.foodArray[6] = fs.new Potato(58);
-		fs.foodArray[7] = fs.new Potato(523);
-		fs.foodArray[8] = fs.new Potato(947);
-		fs.foodArray[9] = fs.new Potato(200);
+		fs.foodArray[2] = fs.new Potato(1);
+		fs.foodArray[3] = fs.new Potato(42);
+		fs.foodArray[4] = fs.new Potato(77);
+		fs.foodArray[5] = fs.new Potato(55);
+		fs.foodArray[6] = fs.new Potato(46);
+		fs.foodArray[7] = fs.new Potato(12);
+		fs.foodArray[8] = fs.new Potato(11);
+		fs.foodArray[9] = fs.new Potato(9);
 
 		// fs.main();
 
 		// FOOD[] sortArry = fs.sortFoodInsertion();
 		FOOD[] sortArry = fs.sortFoodQuick();
-		System.out.println("********Sorted array ************* \n");
 		printFood(sortArry);
 	}
 }
