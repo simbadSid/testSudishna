@@ -1,0 +1,13 @@
+
+
+Bug fixes:
+	- The initial list of foods (attribute of the class "MgmInterviewFoodSort") has been declared as static in order to be accessed by the "main" function (which is static)
+	- In class Tomato, we have removed the redefinition of the attribute "size": this attribute is not accessed by the sort function which access the "size" of the parent class "Food"
+	- In the sort function "main", we have removed the "final" qualification of the index used to store the maximum at each iteration.   Indeed, this index needs most often to be modified.
+
+Code improvements:
+// TODO ***************
+	- Change name of "main" to "sort"
+	- Add function "print" or "toString" and remove it from "main"
+	- Change the name of the array potatoes
+	- Add a builder of "potatoes" and "tomatoes" with parameter "size"
