@@ -1,13 +1,17 @@
 
 
+
 Bug fixes:
-	- The initial list of foods (attribute of the class "MgmInterviewFoodSort") has been declared as static in order to be accessed by the "main" function (which is static)
+	- Correct the ccess to the foodArray (previously "potatoes") attribute in the main function.   This attribute of the class MgmInterviewFoodSort is not static. Thus it can not be accessed statically (in the main function).
 	- In class Tomato, we have removed the redefinition of the attribute "size": this attribute is not accessed by the sort function which access the "size" of the parent class "Food"
 	- In the sort function "main", we have removed the "final" qualification of the index used to store the maximum at each iteration.   Indeed, this index needs most often to be modified.
 
 Code improvements:
-// TODO ***************
 	- Change name of "main" to "sort"
 	- Add function "print" or "toString" and remove it from "main"
-	- Change the name of the array potatoes
-	- Add a builder of "potatoes" and "tomatoes" with parameter "size"
+	- Change the name of the array potatoes (cause ethis array doesn't contain only potatoes)
+	- Add a builder in the abstract parent class that takes into parameter the size (cause it is used by all the sub classes)
+	- Add a function to access the size (used by all the sort): for the evolutivity of the code
+	- Change the value in the loop by a parameter or the array size
+	- Change the default size in Tomatoe by a constant 
+	- Add a new sorting algorithm (quick sort: logarithmic average performances) to enhance the performances of the previously implemented one (quadratic average performance): 
