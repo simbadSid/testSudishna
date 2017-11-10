@@ -2,6 +2,8 @@ package MGM;
 
 import java.util.Arrays;
 
+
+
 //Your task is to:
 //- fix the code
 //- improve the poor quality of this code.
@@ -22,108 +24,194 @@ import java.util.Arrays;
 //Tomato 121
 //
 
+public class MgmInterviewFoodSort {
 
+	/**
+	 * Original code: public FOOD[] potatoes = null;
+	 * 
+	 * Comment: 
+	 * 			- Changing the variable	name to "foodArray" as we are pushing both Potato and Tomato objects in this array.
+	 */
+	public FOOD[] foodArray = null;
 
+	/**
+	 * Added
+	 * 
+	 * Comment: 
+	 * 			- Parameterized all the constant values that are used in the code (to ease the evolution of the code)
+	 */
+	public static final int DEFAULT_FOOD_SIZE	= -1;
+	public static final int DEFAULT_TOMATO_SIZE	= 121;
 
-public class MgmInterviewFoodSort
-{
+	public abstract class FOOD {
 
-	public static FOOD[] potatoes = null;
+		public int size = DEFAULT_FOOD_SIZE;
 
-	public abstract class FOOD
-	{
-		public int size = -1;
+		/**
+		 * Added
+		 * 
+		 * Comment: 
+		 * 			- This builder is used by all the sub classes: all of them instantiate and use the attribute size.
+		 */
+		public FOOD(int size) {
+			this.size = size;
+		}
 
-		public String whoAMI()
-		{
-			return this.getClass().getName()
-					.substring(MgmInterviewFoodSort.class.getName().length() + 1);
+		public String whoAMI() {
+			return this.getClass().getName().substring(MgmInterviewFoodSort.class.getName().length() + 1);
+		}
+
+		/**
+		 * Added
+		 * 
+		 * Comment: 
+		 * 			- The value of size is used during the sort. We thus have added this getter to ease the evolution of the code: if the size is computed differently,
+		 * 			 we don't want to change all the part of the code that access it. We simply update this function.
+		 */
+		public int getSize() {
+			return this.size;
 		}
 	}
 
-	public class Potato extends FOOD
-	{
-		//
-	}
-
-	public class Tomato extends FOOD
-	{
-		// default size for tomato
-//		public int size = 121;
-		public Tomato()
-		{
-			super.size = 121;
+	public class Potato extends FOOD {
+		/**
+		 * Added
+		 * 
+		 * Comment: 
+		 * 			- The size attribute is always set after the class instanciation. Thus we merge it into the builder.
+		 */
+		public Potato(int size) {
+			super(size);
 		}
 	}
 
-	public void main()
-	{
-		// sort food
-		final FOOD[] SORTEDFOOD = new FOOD[10];
-		for (int i = 0; i < 10; i++)
-		{
-			int index_of_the_smaller_food=i;
-			for (int j = i; j < 10; j++)
-			{
-				if(potatoes[index_of_the_smaller_food].size > potatoes[j].size)
-				{
-					index_of_the_smaller_food=j;
+	public class Tomato extends FOOD {
+		/**
+		 * Original code: public int size = 121;
+		 * 
+		 * Comment: 
+		 * 			- The previous code declares same variable "size" in the "Tomato" which is already present in the "FOOD". The problem is that during sorting,
+		 * 			 the Food instance's size is used instead of Tomato. Using super keyword helps to refer to Food's size attribute. 
+		 * 			- The size attribute is always set after the class instantiation. Thus we merge it into the builder. 
+		 * 			- We have created two builder definition as there are two use cases. 
+		 * 			- We have replaced the previous hard-coded value by a constant (to ease the evolution of the code).
+		 */
+		public Tomato() {
+			super(DEFAULT_TOMATO_SIZE);
+		}
+
+		public Tomato(int size) {
+			super(size);
+		}
+	}
+
+	/**
+	 * Original code: public void main()
+	 * 
+	 * Comment:
+	 * 			 - The name of the function was misleading. We thus have replaced it by a name that hints about the interest of the function 
+	 * 			 - The function has been split into two functions (sort and print) according to their respective duties. 
+	 * 			 - The sort function returns the sorted FOOD array.
+	 */
+	public FOOD[] sortFoodInsertion() {
+		/**
+		 * Added
+		 * 
+		 * Comment: 
+		 * 			- Using arraySize variable, we prevent from future evolution of the input array
+		 * 
+		 */
+		int arraySize = foodArray.length;
+		final FOOD[] SORTEDFOOD = new FOOD[arraySize];
+
+		for (int i = 0; i < arraySize; i++) {
+
+			/**
+			 * Original code: final int index_of_the_smaller_food = i;
+			 * 
+			 * Comment: 
+			 * 			- "final" keyword before a variable means the value of the variable can not be changed. Thus, it will be constant. 
+			 * 			But the value of "index_of_the_smaller_food" changes based on if condition
+			 */
+			int index_of_the_smaller_food = i;
+
+			for (int j = i; j < arraySize; j++) {
+				if (foodArray[index_of_the_smaller_food].getSize() > foodArray[j].getSize()) {
+					index_of_the_smaller_food = j;
 				}
-				if(	potatoes[index_of_the_smaller_food].size == potatoes[j].size &&
-					potatoes[index_of_the_smaller_food].whoAMI().contains("Tomato"))
-				{
-					index_of_the_smaller_food=j;
+				if (foodArray[index_of_the_smaller_food].getSize() == foodArray[j].getSize()
+						&& foodArray[index_of_the_smaller_food].whoAMI().contains("Tomato")) {
+					index_of_the_smaller_food = j;
 				}
 			}
-			SORTEDFOOD[i]=potatoes[index_of_the_smaller_food];
-			potatoes[index_of_the_smaller_food]=potatoes[i];
+
+			SORTEDFOOD[i] = foodArray[index_of_the_smaller_food];
+			foodArray[index_of_the_smaller_food] = foodArray[i];
 		}
 
-		//print result
-		for (final FOOD potato : Arrays.asList(SORTEDFOOD))
-		{
+		return SORTEDFOOD;
+	}
+	
+	/**
+	 * Added
+	 * 
+	 * Comment:
+	 * 		- Quick sort sorting algorithm added
+	 */
+	public FOOD[] sortFoodQuick() {
+		int arraySize = foodArray.length;
+		FOOD[] SORTEDFOOD = new FOOD[arraySize];
+
+		for (int i = 0; i < arraySize; i++)
+			SORTEDFOOD[i] = foodArray[i];
+		
+		Utility.quickSortAlgo(SORTEDFOOD, 0, arraySize - 1);
+
+		return SORTEDFOOD;
+	}
+
+	/**
+	 * Added
+	 * 
+	 * Comment: 
+	 * 			- This function prints the array for the result
+	 */
+	public static void printFood(FOOD[] inArry) {
+		for (final FOOD potato : Arrays.asList(inArry)) {
 			System.out.println(potato.whoAMI() + " " + potato.size);
 		}
 	}
 
-	public static void main(final String[] args)
-	{
-		MgmInterviewFoodSort fs=new MgmInterviewFoodSort();
-
-		potatoes = new FOOD[10];
-
-		final Tomato p0 = fs.new Tomato();
-		p0.size = 11;
-		potatoes[0] = p0;
-		final Tomato p1 = fs.new Tomato();
-		potatoes[1] = p1;
-
-		final Potato p2 = fs.new Potato();
-		p2.size = 1;
-		potatoes[2] = p2;
-		final Potato p3 = fs.new Potato();
-		p3.size = 42;
-		potatoes[3] = p3;
-		final Potato p4 = fs.new Potato();
-		p4.size = 77;
-		potatoes[4] = p4;
-		final Potato p5 = fs.new Potato();
-		p5.size = 55;
-		potatoes[5] = p5;
-		final FOOD p6 = fs.new Potato();
-		p6.size = 46;
-		potatoes[6] = p6;
-		final FOOD p7 = fs.new Potato();
-		p7.size = 12;
-		potatoes[7] = p7;
-		final Potato p8 = fs.new Potato();
-		p8.size = 11;
-		potatoes[8] = p8;
-		final Potato p9 = fs.new Potato();
-		p9.size = 9;
-		potatoes[9] = p9;
+	public static void main(final String[] args) {
+		MgmInterviewFoodSort fs = new MgmInterviewFoodSort();
 		
-		fs.main();
-	}
+		/**
+		 * Original code: potatoes = new FOOD[10];
+		 * 
+		 * Comment:
+		 * 			- foodArray is the attribute of the class MgmInterviewFoodSort. Thus it can not be accessed statically. 
+		 * 			The correction we did allows to access the attribute that belongs of this object.
+		 */
+		
+		fs.foodArray = new FOOD[11];
 
+		fs.foodArray[0] = fs.new Tomato(121);
+		fs.foodArray[1] = fs.new Tomato();
+
+		fs.foodArray[2] = fs.new Potato(-576);
+		fs.foodArray[3] = fs.new Potato(-266);
+		fs.foodArray[4] = fs.new Potato(-128);
+		fs.foodArray[5] = fs.new Potato(105);
+		fs.foodArray[6] = fs.new Potato(58);
+		fs.foodArray[7] = fs.new Potato(523);
+		fs.foodArray[8] = fs.new Potato(947);
+		fs.foodArray[9] = fs.new Potato(200);
+
+		// fs.main();
+
+		// FOOD[] sortArry = fs.sortFoodInsertion();
+		FOOD[] sortArry = fs.sortFoodQuick();
+		System.out.println("********Sorted array ************* \n");
+		printFood(sortArry);
+	}
 }
